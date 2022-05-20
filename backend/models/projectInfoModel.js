@@ -1,7 +1,12 @@
 const mongoose  = require('mongoose')
 const validator = require('validator')
 
-const projectInfoSchema = new mongoose.Schema({
+const projectInfoSchema = mongoose.Schema({
+    users: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Users'
+    },
     fullname:{
         type: String,
         required: true,
@@ -69,12 +74,8 @@ const projectInfoSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    date_created: {
-        type: Date,
-        immutable: true,
-        default: () => Date.now(),
-    },
-    date_updated: Date
+}, {
+    timestamps: true,
 })
 
 module.exports  = mongoose.model("ProjectInfo", projectInfoSchema)
