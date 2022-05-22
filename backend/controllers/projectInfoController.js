@@ -1,5 +1,7 @@
 const asyncHandler = require("express-async-handler")
+const multer = require('multer')
 const ProjectInfo = require('../models/projectInfoModel')
+
 
 //@desc Get Project Information
 //@route GET /api/project
@@ -13,21 +15,20 @@ const getProjectInfo = asyncHandler(async(req, res) => {
 //@route POST /api/project
 //@access Private 
 const createProjectInfo = asyncHandler(async(req, res) => {
-    // if(!req.body.phone_number){
-    //     res.status(400)
-    //     throw new Error("Please make sure you have text sent")
-    // }
+    req.body.image = req.file.buffer
     const projectInfo = await ProjectInfo.create({
-        fullname: "Theophilus Alamu",
-        company_name: "Xtremecardz",
-        website_link: "xtremecardz.com",
-        email: "theophilus.alamu8@gmail.com",
-        phone_number: "08034583422",
-        designation: "Engineer",
-        company_address: "Goshen house papa apete ibadan",
-        back_content: "Authority of the master of kuvuki",
-        uid: "xmklUi283748ADxJJJDFHGSxjk",
-        number_of_cards: 2
+        users: req.user.id,
+        fullname: req.body.fullname,
+        company_name: req.body.company_name,
+        website_link: req.body.website_link,
+        email: req.body.email,
+        phone_number: req.body.phone_number,
+        designation: req.body.designation,
+        company_address: req.body.company_address,
+        back_content: req.body.back_content,
+        uid: req.body.uid,
+        number_of_cards: req.body.number_of_cards,
+        image: req.file.path,
     })
     res.status(200).json(projectInfo)
 })
